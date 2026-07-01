@@ -35,8 +35,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -48,8 +48,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.samples.apps.sunflower.R
+import com.google.samples.apps.sunflower.compose.alphabetical.AlphabeticalListScreen
 import com.google.samples.apps.sunflower.compose.garden.GardenScreen
 import com.google.samples.apps.sunflower.compose.plantlist.PlantListScreen
 import com.google.samples.apps.sunflower.data.Plant
@@ -62,7 +64,8 @@ enum class SunflowerPage(
     @DrawableRes val drawableResId: Int
 ) {
     MY_GARDEN(R.string.my_garden_title, R.drawable.ic_my_garden_active),
-    PLANT_LIST(R.string.plant_list_title, R.drawable.ic_plant_list_active)
+    PLANT_LIST(R.string.plant_list_title, R.drawable.ic_plant_list_active),
+    ALPHABETICAL_LIST(R.string.az_directory_title, R.drawable.ic_sort_alpha)
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -106,9 +109,10 @@ fun HomePagerScreen(
     Column(modifier) {
         val coroutineScope = rememberCoroutineScope()
 
-        // Tab Row
-        TabRow(
-            selectedTabIndex = pagerState.currentPage
+        // Tab Row - use ScrollableTabRow for 3+ tabs
+        ScrollableTabRow(
+            selectedTabIndex = pagerState.currentPage,
+            edgePadding = 0.dp,
         ) {
             pages.forEachIndexed { index, page ->
                 val title = stringResource(id = page.titleResId)
@@ -149,6 +153,13 @@ fun HomePagerScreen(
 
                 SunflowerPage.PLANT_LIST -> {
                     PlantListScreen(
+                        onPlantClick = onPlantClick,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+
+                SunflowerPage.ALPHABETICAL_LIST -> {
+                    AlphabeticalListScreen(
                         onPlantClick = onPlantClick,
                         modifier = Modifier.fillMaxSize(),
                     )

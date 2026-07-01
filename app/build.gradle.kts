@@ -124,6 +124,7 @@ dependencies {
   implementation(libs.hilt.android)
   implementation(libs.hilt.navigation.compose)
   implementation(libs.androidx.profileinstaller)
+  implementation(libs.androidx.palette.ktx)
 
   // Compose
   implementation(platform(libs.androidx.compose.bom))

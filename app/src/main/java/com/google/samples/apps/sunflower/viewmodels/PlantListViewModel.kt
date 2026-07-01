@@ -50,6 +50,8 @@ class PlantListViewModel @Inject internal constructor(
         }
     }.asLiveData()
 
+    val allPlants: LiveData<List<Plant>> = plantRepository.getPlants().asLiveData()
+
     init {
 
         /**

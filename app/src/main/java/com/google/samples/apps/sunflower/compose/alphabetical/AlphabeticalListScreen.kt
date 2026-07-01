@@ -55,7 +55,7 @@ fun AlphabeticalListScreen(
     modifier: Modifier = Modifier,
     viewModel: PlantListViewModel = hiltViewModel(),
 ) {
-    val plants by viewModel.plants.observeAsState(initial = emptyList())
+    val plants by viewModel.allPlants.observeAsState(initial = emptyList())
     AlphabeticalListContent(
         plants = plants,
         onPlantClick = onPlantClick,
@@ -71,6 +71,7 @@ fun AlphabeticalListContent(
     modifier: Modifier = Modifier,
 ) {
     val grouped = plants
+        .filter { it.name.isNotEmpty() }
         .sortedBy { it.name.lowercase() }
         .groupBy { it.name.first().uppercaseChar() }
 
@@ -137,7 +138,11 @@ fun AlphabeticalListItem(
                 fontWeight = FontWeight.Medium,
             )
             Text(
-                text = "Grow Zone ${plant.growZoneNumber} \u00B7 Water every ${plant.wateringInterval}d",
+                text = stringResource(
+                    R.string.az_plant_subtitle,
+                    plant.growZoneNumber,
+                    plant.wateringInterval
+                ),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

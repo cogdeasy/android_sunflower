@@ -85,7 +85,7 @@ fun ImageListItem(name: String, imageUrl: String, onClick: () -> Unit) {
                 loading = placeholder(R.drawable.ic_plant_placeholder),
                 failure = placeholder(R.drawable.ic_plant_placeholder),
             ) {
-                it.listener(object : RequestListener<Drawable> {
+                it.addListener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,
                         model: Any?,
